@@ -1,7 +1,19 @@
+using BrickOutService.DataAccess.Data;
+using BrickOutService.DataAccess.Repository.IRepository;
+using BrickOutService.DataAccess.Repository;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddDbContext<ApplicationDbContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
